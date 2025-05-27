@@ -1,11 +1,64 @@
 "use client"
 
-
 import { Button } from "@/components/ui/button"
 import { PhoneCall, Mail, MapPin, Clock } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react"
+import emailjs from '@emailjs/browser'
 
 export default function Contato() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [formData, setFormData] = useState({
+    nome: '',
+    email: '',
+    telefone: '',
+    assunto: '',
+    mensagem: ''
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    try {
+      await emailjs.send(
+        'YOUR_SERVICE_ID', // Substitua pelo seu Service ID do EmailJS
+        'YOUR_TEMPLATE_ID', // Substitua pelo seu Template ID do EmailJS
+        {
+          from_name: formData.nome,
+          from_email: formData.email,
+          phone: formData.telefone,
+          subject: formData.assunto,
+          message: formData.mensagem,
+          to_name: 'Super SP Telecom',
+        },
+        'YOUR_PUBLIC_KEY' // Substitua pela sua Public Key do EmailJS
+      )
+
+      alert('Mensagem enviada com sucesso! Entraremos em contato em breve.')
+      setFormData({
+        nome: '',
+        email: '',
+        telefone: '',
+        assunto: '',
+        mensagem: ''
+      })
+    } catch (error) {
+      console.error('Erro ao enviar email:', error)
+      alert('Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <>
       {/* Hero Section */}
@@ -26,11 +79,7 @@ export default function Contato() {
             <h2 className="text-3xl font-bold text-[#223057] mb-6">Envie uma Mensagem</h2>
             <form
               className="space-y-6"
-              onSubmit={(e) => {
-                e.preventDefault()
-                alert("Mensagem enviada com sucesso! Entraremos em contato em breve.")
-                // Aqui você adicionaria a lógica para enviar o formulário
-              }}
+              onSubmit={handleSubmit}
             >
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
@@ -39,6 +88,9 @@ export default function Contato() {
                   </label>
                   <input
                     id="nome"
+                    name="nome"
+                    value={formData.nome}
+                    onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#223057]"
                     placeholder="Seu nome"
                     required
@@ -50,9 +102,12 @@ export default function Contato() {
                   </label>
                   <input
                     id="email"
+                    name="email"
                     type="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#223057]"
-                    placeholder="seu@email.com"
+                    placeholder="tbs@supersp.com.br"
                     required
                   />
                 </div>
@@ -64,6 +119,9 @@ export default function Contato() {
                   </label>
                   <input
                     id="telefone"
+                    name="telefone"
+                    value={formData.telefone}
+                    onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#223057]"
                     placeholder="(11) 99999-9999"
                     required
@@ -75,6 +133,9 @@ export default function Contato() {
                   </label>
                   <select
                     id="assunto"
+                    name="assunto"
+                    value={formData.assunto}
+                    onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#223057]"
                     required
                   >
@@ -92,13 +153,22 @@ export default function Contato() {
                 </label>
                 <textarea
                   id="mensagem"
+                  name="mensagem"
+                  value={formData.mensagem}
+                  onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#223057] min-h-[150px]"
                   placeholder="Como podemos ajudar sua empresa?"
                   required
                 ></textarea>
               </div>
               <div>
-                <Button className="bg-[#223057] hover:bg-[#1a2545] text-white cursor-pointer">Enviar Mensagem</Button>
+                <Button 
+                  type="submit"
+                  disabled={isLoading}
+                  className="bg-[#223057] hover:bg-[#1a2545] text-white cursor-pointer disabled:opacity-50"
+                >
+                  {isLoading ? 'Enviando...' : 'Enviar Mensagem'}
+                </Button>
               </div>
             </form>
           </div>
@@ -123,7 +193,7 @@ export default function Contato() {
                 </div>
                 <div>
                   <h3 className="font-bold text-[#223057] mb-1">E-mail</h3>
-                  <p className="text-gray-700">contato@supersptelecom.com.br</p>
+                  <p className="text-gray-700">seuemail@gmail.com.br</p>
                 </div>
               </div>
 

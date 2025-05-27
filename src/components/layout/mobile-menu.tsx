@@ -32,7 +32,7 @@ export default function MobileMenu() {
                   <div className="absolute inset-0 bg-indigo-700 rounded-md"></div>
                   <div className="absolute inset-0 border-r-4 border-lime-400 rounded-md"></div>
                 </div>
-                <span className="text-indigo-700 font-bold">ACC TELECOM</span>
+                <span className="text-indigo-700 font-bold"></span>
               </div>
               <button className="text-gray-500 hover:text-gray-700" onClick={() => setIsOpen(false)}>
                 <X className="h-6 w-6" />
