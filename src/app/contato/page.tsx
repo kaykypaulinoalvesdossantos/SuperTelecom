@@ -107,7 +107,7 @@ export default function Contato() {
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#223057]"
-                    placeholder="tbs@supersp.com.br"
+                    placeholder="SeuEmail@gmail.com"
                     required
                   />
                 </div>
@@ -193,7 +193,7 @@ export default function Contato() {
                 </div>
                 <div>
                   <h3 className="font-bold text-[#223057] mb-1">E-mail</h3>
-                  <p className="text-gray-700">seuemail@gmail.com.br</p>
+                  <p className="text-gray-700">contato@supersp.com.br</p>
                 </div>
               </div>
 
@@ -204,9 +204,9 @@ export default function Contato() {
                 <div>
                   <h3 className="font-bold text-[#223057] mb-1">Endereço</h3>
                   <p className="text-gray-700">
-                    Av. Paulista, 1000 - Bela Vista
+                    R. Alfredo Pujol, 545, Sala 107 - Santana
                     <br />
-                    São Paulo - SP, 01310-100
+                    São Paulo - SP, 02017-010
                   </p>
                 </div>
               </div>
